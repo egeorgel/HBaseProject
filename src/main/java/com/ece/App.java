@@ -44,7 +44,7 @@ public class App {
             if(bff.equals("q")) break;
 
             System.out.println("Enter a friends name separate by comma (jean,dupont...) : ");
-            //String friendsStr = scanIn.nextLine();
+            String friendsStr = scanIn.nextLine();
             List<String> friends = Arrays.asList("".split(","));
 
             people.add(firstName, lastName, age, email, sex, bff, friends);

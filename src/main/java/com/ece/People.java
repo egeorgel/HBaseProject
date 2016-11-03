@@ -21,8 +21,8 @@ public class People {
     public People() throws IOException {
         Configuration conf = HBaseConfiguration.create();
         HBaseAdmin admin = new HBaseAdmin(conf);
-        if (!admin.tableExists("people")) {
-            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf("people"));
+        if (!admin.tableExists("peopleTable-EG")) {
+            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf("peopleTable-EG"));
             tableDescriptor.addFamily(new HColumnDescriptor("info"));
             tableDescriptor.addFamily(new HColumnDescriptor("friends"));
             admin.createTable(tableDescriptor);
@@ -32,7 +32,7 @@ public class People {
     public void add(String firstName, String lastName, String age, String email, String sex, String bff, List<String> friends) throws IOException {
         // define people
         Configuration conf = HBaseConfiguration.create();
-        HTable table = new HTable(conf, "people");
+        HTable table = new HTable(conf, "peopleTable-EG");
         Put put = new Put(Bytes.toBytes(firstName));
         put.add(Bytes.toBytes("info"), Bytes.toBytes("lastName"), Bytes.toBytes(lastName));
         put.add(Bytes.toBytes("info"), Bytes.toBytes("age"), Bytes.toBytes(age));
@@ -40,7 +40,7 @@ public class People {
         put.add(Bytes.toBytes("info"), Bytes.toBytes("sex"), Bytes.toBytes(sex));
 
         put.add(Bytes.toBytes("friends"), Bytes.toBytes("bff"), Bytes.toBytes(bff));
-        //friends.forEach(name -> put.add(Bytes.toBytes("friends"), Bytes.toBytes("others"), Bytes.toBytes(name)));
+        friends.forEach(name -> put.add(Bytes.toBytes("friends"), Bytes.toBytes("others"), Bytes.toBytes(name)));
 
         table.put(put);
         System.out.println("data inserted");
